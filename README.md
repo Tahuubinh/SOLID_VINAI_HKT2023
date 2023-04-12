@@ -4,7 +4,7 @@ Our app suggests music for an image.
 
 ## Contributors
 
-+ Phạm Huy Tùng (beloved leader)
++ Phạm Huy Tùng (Beloved leader)
 + Hồ Lai Tuân (Techie guy)
 + Tạ Hữu Bình
 + Nguyễn Ngọc Hải
