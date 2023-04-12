@@ -17,13 +17,17 @@ Our app suggests music for an image.
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* Python 3.10 (recommended)
+* [LAVIS](https://github.com/salesforce/LAVIS)
+* Microsoft Visual C++ 14.0 or greater is required
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* LAVIS
+
+Install Microsoft Visual C++ 14.0 or greater is required: https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst
+
+Install 
 
 ### Executing program
 
