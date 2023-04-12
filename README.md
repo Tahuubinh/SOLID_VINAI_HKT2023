@@ -34,6 +34,11 @@ Install pycocotools
 conda install -c conda-forge pycocotools
 ```
 
+Install LAVIS from PyPi
+```
+pip install salesforce-lavis
+```
+
 ### Executing program
 
 * How to run the program
