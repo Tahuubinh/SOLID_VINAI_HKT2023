@@ -19,7 +19,7 @@ Our app suggests music for an image.
 
 * Python 3.10 (recommended)
 * [LAVIS](https://github.com/salesforce/LAVIS)
-* Microsoft Visual C++ 14.0 or greater is required
+* [Microsoft Visual C++ 14.0 or greater is required](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 
 ### Installing
 
