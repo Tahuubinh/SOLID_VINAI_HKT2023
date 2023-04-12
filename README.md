@@ -18,7 +18,7 @@ Our app suggests music for an image.
 ### Dependencies
 
 * Python 3.10 (recommended)
-* [LAVIS (BIP)](https://github.com/salesforce/LAVIS) or [VIT GPT2](https://huggingface.co/nlpconnect/vit-gpt2-image-captioning)
+* [LAVIS](https://github.com/salesforce/LAVIS)
 * [Microsoft Visual C++ 14.0 or greater is required](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 
 ### Installing
@@ -27,7 +27,7 @@ Our app suggests music for an image.
 
 * LAVIS
 
-Install Microsoft Visual C++ 14.0 or greater is required: https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst
+Install Microsoft Visual C++ 14.0 or greater is required for LAVIS: https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst
 
 Install pycocotools
 ```
