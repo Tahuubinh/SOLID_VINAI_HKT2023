@@ -18,12 +18,12 @@ Our app suggests music for an image.
 ### Dependencies
 
 * Python 3.10 (recommended)
-* [LAVIS](https://github.com/salesforce/LAVIS)
+* [LAVIS (BIP)](https://github.com/salesforce/LAVIS) or [VIT GPT2](https://huggingface.co/nlpconnect/vit-gpt2-image-captioning)
 * [Microsoft Visual C++ 14.0 or greater is required](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 
 ### Installing
 
-* You can import environment in anaconda using SOLID2.yaml
+* You can import environment in anaconda using SOLID2.yaml (LAVIS) or Hug.yaml (VIT GPT2). VIT GPT2 seems faster with same accuracy.
 
 * LAVIS
 
@@ -37,6 +37,15 @@ conda install -c conda-forge pycocotools
 Install LAVIS from PyPi
 ```
 pip install salesforce-lavis
+```
+
+* VIT GPT2
+
+```
+pip install torch
+pip install torchvision
+pip install transformers
+pip install pillow
 ```
 
 ### Executing program
