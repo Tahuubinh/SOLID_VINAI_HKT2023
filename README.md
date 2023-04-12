@@ -27,7 +27,10 @@ Our app suggests music for an image.
 
 Install Microsoft Visual C++ 14.0 or greater is required: https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst
 
-Install 
+Install pycocotools
+```
+conda install -c conda-forge pycocotools
+```
 
 ### Executing program
 
