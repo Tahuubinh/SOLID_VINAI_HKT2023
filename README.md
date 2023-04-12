@@ -39,7 +39,7 @@ conda install -c conda-forge pycocotools
 * How to run the program
 * Step-by-step bullets
 ```
-code blocks for commands
+streamlit run app.py
 ```
 
 
