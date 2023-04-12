@@ -48,6 +48,11 @@ pip install transformers
 pip install pillow
 ```
 
+* streamlit
+```
+pip install streamlit
+```
+
 ### Executing program
 
 * How to run the program
