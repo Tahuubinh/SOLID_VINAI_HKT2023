@@ -11,6 +11,13 @@ from PIL import Image
 RCM_NUMBER = 3 # number of recommendation
 RCM_LINKS = ["https://open.spotify.com/embed/track/3a2Oftcs10wtzw6AmxuTMU?utm_source=generator", "https://open.spotify.com/embed/track/5d13XA4256WXujmAaFTr7O?utm_source=generator", "https://open.spotify.com/embed/track/3Dce2XbAZlQAFg2NWM2bb0?utm_source=generator"]
 
+if 'id_' not in st.session_state:
+    st.session_state.id_ = -1
+if 'type_' not in st.session_state:
+    st.session_state.type_ = None   
+if 'captions_' not in st.session_state:
+    st.session_state.captions_ = ["a cat sitting", "a sad cat"]   
+
 st.title("MUSIC GENERATION APP")
 st.header("Made by team SOLID")
 
@@ -26,6 +33,8 @@ with img_col:
         # resize
         image.resize((256, 256))
         st.image(image, use_column_width=True)
+    # generate captions and display them
+    st.radio("Generated captions", st.session_state.captions_)
     caption = None
     if caption is not None:
         st.write(f"Caption: {caption}")
@@ -42,11 +51,25 @@ with img_col:
 with music_col:
     with st.expander("Recommendation", expanded=True):
         buttons = []
-        for rcm_music in RCM_LINKS:
+        # get recommendation links and display them
+        for i, rcm_music in enumerate(RCM_LINKS):
             # embedd the spotify music url
             components.iframe(rcm_music, height=80)
-            buttons.append(st.button("Choose"))
-        # st.write("[1. Don't let me down - Chainsmoker](https://www.youtube.com/watch?v=Io0fBr1XBUA)")
-        # st.write("[2. The Chainsmokers - Closer (Lyric) ft. Halsey](https://www.youtube.com/watch?v=PT2_F-1esPk)")
+            buttons.append(st.button("Choose", key=f"rcm_{i}"))
+        for i, button in enumerate(buttons):
+            if button:
+                st.session_state.type_ = 'rcm'
+                st.session_state.id_ = i
+
     with st.expander("AI Generation", expanded=True):
-        st.write("Audio1")
+        # generate music and display them
+        buttons = []
+        for i in range(3):
+            st.write(f"Audio{i}")
+            buttons.append(st.button("Choose", key=f"gen_{i}"))
+        for i, button in enumerate(buttons):
+            if button:
+                st.session_state.type_ = 'gen'
+                st.session_state.id_ = i       
+
+st.write(f"You choose song of type {st.session_state.type_} with id {st.session_state.id_}")
