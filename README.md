@@ -2,9 +2,16 @@
 
 Our app suggests music for an image.
 
-## Description
+## Contributors
 
-An in-depth paragraph about your project and overview of use.
++ Phạm Huy Tùng (beloved leader)
++ Hồ Lai Tuân (Techie guy)
++ Tạ Hữu Bình
++ Nguyễn Ngọc Hải
++ Lê Thanh Thiên
++ Vũ Quang Trường
++ Nguyễn Văn Việt
+
 
 ## Getting Started
 
