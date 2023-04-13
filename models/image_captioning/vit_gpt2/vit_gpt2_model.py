@@ -20,9 +20,7 @@ class VITGPT2:
         self.num_beams = 5
         self.gen_kwargs = {"max_length": max_length, "num_beams": num_beams}
 
-    def describe(self, image_path):
-        i_image = Image.open(image_path)
-
+    def describe(self, i_image):
         pixel_values = self.feature_extractor(
             images=[i_image], return_tensors="pt").pixel_values
         pixel_values = pixel_values.to(self.device)
@@ -31,4 +29,4 @@ class VITGPT2:
 
         pred = self.tokenizer.batch_decode(
             output_ids, skip_special_tokens=True)
-        return pred
+        return [pred]
