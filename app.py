@@ -56,9 +56,9 @@ def reload_gen_music():
         #     st.session_state.caption, st.session_state.genres, st.session_state.moods)
         # out, _ = predict(prompt, negative_prompt)
         with gen_expander:
-            audio_file = open(os.path.join(".", "models", "riffusion", "output.wav"), 'rb')
+            audio_file = open(os.path.join(".", "models", "riffusion", "nhac.mp3"), 'rb')
             audio_bytes = audio_file.read()
-            st.audio(audio_bytes)
+            st.audio(audio_bytes, format="audio/mpeg")
             # button = st.button("Choose", key=f"gen", on_click=set_selected_song)
     reload_images()
 
