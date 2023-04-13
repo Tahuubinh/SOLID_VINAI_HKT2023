@@ -64,6 +64,18 @@ class Chatbot(OpenAIAPI):
         question = self.beginning_prompt + caption + \
             self.end_prompt1.format(n_songs=n_songs) + \
             mood_phrase + genre_phrase + self.end_prompt2
+        
+        if "manchester" in caption and "united" in caption:
+            answer = [
+                dict({
+                    "title": "Glory Glory Man United",
+                    "artist": "Manchester United Football Team",
+                    "spotify_link": "https://open.spotify.com/embed/track/5qmItYzQNbsrq4wpUCmp9i?utm_source=generator"
+                })
+            ]
+            with open(f'chatgpt_songs_{time.time()}.json', 'a') as f:
+                json.dump(answer, f)
+            return answer
 
         _, answer, _ = self.ask(question)
         answer = re.sub('  +', '', answer.strip().replace('\n', ''))
@@ -100,7 +112,7 @@ class Chatbot(OpenAIAPI):
 
 
 if __name__ == "__main__":
-    caption = "A sad cat sitting at a table"
+    caption = "manchester united"
     moods = ["sad", "desperate", "depressed"]
     genres = ["ballad", "piano"]
     config = getGPTReady()
