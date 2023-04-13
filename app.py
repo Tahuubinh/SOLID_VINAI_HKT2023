@@ -5,62 +5,78 @@ from caption_generator import CaptionGenerator
 import os
 from PIL import Image
 
-def get_links():
-    return random.choice([["https://open.spotify.com/embed/track/7wj9sGlHGTMQ28liyi48hz?utm_source=generator"], ["https://open.spotify.com/embed/track/3a2Oftcs10wtzw6AmxuTMU?utm_source=generator"], ["https://open.spotify.com/embed/track/5d13XA4256WXujmAaFTr7O?utm_source=generator"]])
-# MUSIC_DIR = "./music"
 
-# spotify links (somehow we got this :>)
+def get_links(captions: list, genres: list, moods: list) -> list:
+    return random.choice([["https://open.spotify.com/embed/track/7wj9sGlHGTMQ28liyi48hz?utm_source=generator"], ["https://open.spotify.com/embed/track/3a2Oftcs10wtzw6AmxuTMU?utm_source=generator"], ["https://open.spotify.com/embed/track/5d13XA4256WXujmAaFTr7O?utm_source=generator"]])
+
+def reload_links():
+    if 'img' in st.session_state:
+        st.session_state.RCM_LINKS = get_links(st.session_state.captions_, st.session_state.genres, st.session_state.moods)
+
+def reload_captions():
+    image = Image.open(st.session_state.img)
+    st.session_state.image = image.convert('RGB')
+    # resize
+    st.session_state.image.resize((256, 256))
+    with img_col:
+        st.image(st.session_state.image, use_column_width=True)
+        if st.session_state.image is not None:
+            cap_gen = CaptionGenerator(st.session_state.image)
+            st.session_state.captions_ = cap_gen.generate(num=2)
+    # captions must not be None
+    st.session_state.RCM_LINKS = get_links(st.session_state.captions_, st.session_state.genres, st.session_state.moods)
+ 
+
 if 'RCM_NUMBER' not in st.session_state:
     st.session_state.RCM_NUMBER = 3
 if 'RCM_LINKS' not in st.session_state:
     st.session_state.RCM_LINKS = []
-    # ["https://open.spotify.com/embed/track/3a2Oftcs10wtzw6AmxuTMU?utm_source=generator", "https://open.spotify.com/embed/track/5d13XA4256WXujmAaFTr7O?utm_source=generator", "https://open.spotify.com/embed/track/3Dce2XbAZlQAFg2NWM2bb0?utm_source=generator"]
-
 if 'id_' not in st.session_state:
     st.session_state.id_ = -1
 if 'type_' not in st.session_state:
     st.session_state.type_ = None   
 if 'captions_' not in st.session_state:
-    st.session_state.captions_ = []   
+    st.session_state.captions_ = []
+# if 'genres' not in st.session_state:
+#     st.session_state.genres = None
+# if 'moods' not in st.session_state:
+#     st.session_state.moods = None
+# if 'image' not in st.session_state:
+#     st.session_state.image = None
+# if 'img_file' not in st.session_state:
+#     st.session_state.img_file = None
 
 st.title("MUSIC GENERATION APP")
 st.header("Made by team SOLID")
 
 img_col, music_col = st.columns(2, gap="large")
-img_file = None
 with img_col:
-    img_file = st.file_uploader("Please upload an image file", type=["jpg", "png", "tif"])
-    if img_file is None:
+    st.file_uploader("Please upload an image file", type=["jpg", "png", "tif"], on_change=reload_captions, key="img")
+    if st.session_state.img is None:
         st.text("Please upload an image file")
-    else:
-        image = Image.open(img_file)
-        image = image.convert('RGB')
-        # resize
-        image.resize((256, 256))
-        st.image(image, use_column_width=True)
-        if st.session_state.captions_ == []:
-            cap_gen = CaptionGenerator(image)
-            st.session_state.captions_ = cap_gen.generate(num=2)
+
     # generate captions and display them    
-    st.radio("Generated captions", st.session_state.captions_)
+    st.radio("Generated captions", st.session_state.captions_, on_change=reload_links)
     caption = None
     if caption is not None:
         st.write(f"Caption: {caption}")
-    genres = st.multiselect(
+    st.multiselect(
     'Genre :musical_note:',
     ['Pop', 'Rock', 'Ballad', 'EDM', 'R&B', 'Soul', 'Rap'],
+    on_change=reload_links,
+    key='genres'
     )
 
-    moods = st.multiselect(
+    st.multiselect(
     'Mood :kissing:',
     ['Happy', 'Exciting', 'Sad', 'Nervous', 'Neutral'],
+    on_change=reload_links,
+    key='moods'
     )
 
 with music_col:
     with st.expander("Recommendation", expanded=True):
         buttons = []
-        if img_file is not None:
-            st.session_state.RCM_LINKS = get_links()
         # get recommendation links and display them
         for i, rcm_music in enumerate(st.session_state.RCM_LINKS):
             # embedd the spotify music url
@@ -70,9 +86,7 @@ with music_col:
             if button:
                 st.session_state.type_ = 'rcm'
                 st.session_state.id_ = i
-        reload_ = st.button("Reload")
-        if reload_:
-            RCM_LINKS[0] = "https://open.spotify.com/embed/track/7wj9sGlHGTMQ28liyi48hz?utm_source=generator"
+        reload_ = st.button("Reload", on_click=reload_links)
 
     with st.expander("AI Generation", expanded=True):
         # generate music and display them
