@@ -73,8 +73,6 @@ class Chatbot(OpenAIAPI):
                     "spotify_link": "https://open.spotify.com/embed/track/5qmItYzQNbsrq4wpUCmp9i?utm_source=generator"
                 })
             ]
-            with open(f'chatgpt_songs_{time.time()}.json', 'a') as f:
-                json.dump(answer, f)
             return answer
 
         _, answer, _ = self.ask(question)
