@@ -1,0 +1,7 @@
+salesforce-lavis
+torch
+torchvision
+transformers
+pillow
+streamlit
+git+https://github.com/mmabrouk/chatgpt-wrapper
