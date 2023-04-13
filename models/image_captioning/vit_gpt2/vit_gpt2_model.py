@@ -4,7 +4,7 @@ from PIL import Image
 
 
 class VITGPT2:
-    def __init__(self, max_length, num_beams) -> None:
+    def __init__(self, max_length=20, num_beams=5) -> None:
         self.model = VisionEncoderDecoderModel.from_pretrained(
             "nlpconnect/vit-gpt2-image-captioning")
         self.feature_extractor = ViTImageProcessor.from_pretrained(
@@ -16,8 +16,8 @@ class VITGPT2:
             "cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
 
-        self.max_length = 20
-        self.num_beams = 5
+        self.max_length = max_length
+        self.num_beams = num_beams
         self.gen_kwargs = {"max_length": max_length, "num_beams": num_beams}
 
     def describe(self, i_image):

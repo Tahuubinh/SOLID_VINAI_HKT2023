@@ -14,8 +14,7 @@ class BlipCaptionLargeCocoModel:
             name="blip_caption", model_type="large_coco", is_eval=True, device=self.device
         )
 
-    def describe(self, imageloc):
-        raw_image = Image.open(imageloc).convert("RGB")
+    def describe(self, raw_image):
         self.vis_processors.keys()
         image = self.vis_processors["eval"](
             raw_image).unsqueeze(0).to(self.device)

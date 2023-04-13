@@ -38,8 +38,9 @@ with img_col:
         # resize
         image.resize((256, 256))
         st.image(image, use_column_width=True)
-        cap_gen = CaptionGenerator(image)
-        st.session_state.captions_ = cap_gen.generate(num=1)
+        if st.session_state.captions_ == []:
+            cap_gen = CaptionGenerator(image)
+            st.session_state.captions_ = cap_gen.generate(num=1)
     # generate captions and display them    
     st.radio("Generated captions", st.session_state.captions_)
     caption = None
