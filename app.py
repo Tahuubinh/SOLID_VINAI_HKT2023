@@ -13,11 +13,11 @@ def get_links(caption: str, genres: list, moods: list) -> list:
     chatbot = Chatbot(config=config)
     song_links = chatbot.recommendSong(
         n_songs=3, caption=caption, moods=moods, genres=genres)
-    return song_links
+    return [song['spotify_link'] for song in song_links]
 
 
 def reload_links():
-    if 'img' in st.session_state and 'caption' in st.session_state and len(st.session_state.moods) and len(st.session_state.genres):
+    if 'img' in st.session_state and st.session_state.caption is not None:
         st.session_state.RCM_LINKS = get_links(
             st.session_state.caption, st.session_state.genres, st.session_state.moods)
 
