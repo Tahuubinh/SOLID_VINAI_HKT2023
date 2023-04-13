@@ -29,4 +29,4 @@ class VITGPT2:
 
         pred = self.tokenizer.batch_decode(
             output_ids, skip_special_tokens=True)
-        return [pred]
+        return pred
