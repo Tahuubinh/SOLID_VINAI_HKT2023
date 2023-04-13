@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 from caption_generator import CaptionGenerator
-#from models.riffusion.text_to_music import generate_prompt, predict
+from models.riffusion.text_to_music import generate_prompt, predict
 from PIL import Image
 from ChatGPT import *
 
