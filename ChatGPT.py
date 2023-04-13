@@ -50,8 +50,9 @@ class Chatbot(OpenAIAPI):
 
     def recommendSong(self, n_songs, caption: str, moods: list = None, genres: list = None):
         # progress = tqdm.tqdm(len(captions), ncols=75, desc='Collect ChatGPT')
-        with open('chatgpt_songs.json', 'w') as f:
-            f.write('')
+        # timestamp = time.time()
+        # with open(f'chatgpt_songs_{timestamp}.json', 'w') as f:
+        #     f.write('')
 
         self.delete_conversation()
         answer = None
@@ -89,8 +90,8 @@ class Chatbot(OpenAIAPI):
 
                 answer[id] = song
 
-            with open('chatgpt_songs.json', 'a') as f:
-                json.dump(answer, f)
+            # with open(f'chatgpt_songs_{timestamp}.json', 'a') as f:
+            #     json.dump(answer, f)
 
             return answer
 
