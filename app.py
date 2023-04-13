@@ -1,17 +1,36 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import random
 from caption_generator import CaptionGenerator
-import os
 from PIL import Image
+from ChatGPT import *
 
 
-def get_links(captions: list, genres: list, moods: list) -> list:
-    return random.choice([["https://open.spotify.com/embed/track/7wj9sGlHGTMQ28liyi48hz?utm_source=generator"], ["https://open.spotify.com/embed/track/3a2Oftcs10wtzw6AmxuTMU?utm_source=generator"], ["https://open.spotify.com/embed/track/5d13XA4256WXujmAaFTr7O?utm_source=generator"]])
+def get_links(caption: str, genres: list, moods: list) -> list:
+    print(caption)
+    print(genres)
+    print(moods)
+    config = getGPTReady()
+    chatbot = Chatbot(config=config)
+    song_links = chatbot.recommendSong(
+        n_songs=3, caption=caption, moods=moods, genres=genres)
+    return [song['spotify_link'] for song in song_links]
+
+
+def reload_images():
+    image = Image.open(st.session_state.img)
+    st.session_state.image = image.convert('RGB')
+    # resize
+    st.session_state.image.resize((256, 256))
+    with img_col:
+        st.image(st.session_state.image, use_column_width=True)
+
 
 def reload_links():
-    if 'img' in st.session_state:
-        st.session_state.RCM_LINKS = get_links(st.session_state.captions_, st.session_state.genres, st.session_state.moods)
+    if 'img' in st.session_state and st.session_state.caption is not None:
+        st.session_state.RCM_LINKS = get_links(
+            st.session_state.caption, st.session_state.genres, st.session_state.moods)
+    reload_images()
+
 
 def reload_captions():
     image = Image.open(st.session_state.img)
@@ -24,8 +43,8 @@ def reload_captions():
             cap_gen = CaptionGenerator(st.session_state.image)
             st.session_state.captions_ = cap_gen.generate(num=2)
     # captions must not be None
-    st.session_state.RCM_LINKS = get_links(st.session_state.captions_, st.session_state.genres, st.session_state.moods)
- 
+    # reload_links()
+
 
 if 'RCM_NUMBER' not in st.session_state:
     st.session_state.RCM_NUMBER = 3
@@ -34,7 +53,7 @@ if 'RCM_LINKS' not in st.session_state:
 if 'id_' not in st.session_state:
     st.session_state.id_ = -1
 if 'type_' not in st.session_state:
-    st.session_state.type_ = None   
+    st.session_state.type_ = None
 if 'captions_' not in st.session_state:
     st.session_state.captions_ = []
 # if 'genres' not in st.session_state:
@@ -51,27 +70,31 @@ st.header("Made by team SOLID")
 
 img_col, music_col = st.columns(2, gap="large")
 with img_col:
-    st.file_uploader("Please upload an image file", type=["jpg", "png", "tif"], on_change=reload_captions, key="img")
+    st.file_uploader("Please upload an image file", type=[
+                     "jpg", "png", "tif"], on_change=reload_captions, key="img")
     if st.session_state.img is None:
         st.text("Please upload an image file")
 
-    # generate captions and display them    
-    st.radio("Generated captions", st.session_state.captions_, on_change=reload_links)
+    # generate captions and display them
+    st.radio("Generated captions", st.session_state.captions_,
+             key='caption',
+             on_change=reload_images
+             )
     caption = None
     if caption is not None:
         st.write(f"Caption: {caption}")
     st.multiselect(
-    'Genre :musical_note:',
-    ['Pop', 'Rock', 'Ballad', 'EDM', 'R&B', 'Soul', 'Rap'],
-    on_change=reload_links,
-    key='genres'
+        'Genre :musical_note:',
+        ['Pop', 'Rock', 'Ballad', 'EDM', 'R&B', 'Soul', 'Rap'],
+        on_change=reload_images,
+        key='genres'
     )
 
     st.multiselect(
-    'Mood :kissing:',
-    ['Happy', 'Exciting', 'Sad', 'Nervous', 'Neutral'],
-    on_change=reload_links,
-    key='moods'
+        'Mood :kissing:',
+        ['Happy', 'Exciting', 'Sad', 'Nervous', 'Neutral'],
+        on_change=reload_images,
+        key='moods'
     )
 
 with music_col:
@@ -97,6 +120,7 @@ with music_col:
         for i, button in enumerate(buttons):
             if button:
                 st.session_state.type_ = 'gen'
-                st.session_state.id_ = i       
+                st.session_state.id_ = i
 
-st.write(f"You choose song of type {st.session_state.type_} with id {st.session_state.id_}")
+st.write(
+    f"You choose song of type {st.session_state.type_} with id {st.session_state.id_}")
