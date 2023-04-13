@@ -50,26 +50,25 @@ class Chatbot(OpenAIAPI):
 
     def recommendSong(self, n_songs, caption: str, moods: list = None, genres: list = None):
         # progress = tqdm.tqdm(len(captions), ncols=75, desc='Collect ChatGPT')
-        # with open('chatgpt_songs.json', 'w') as f:
-        #     f.write('')
+        with open('chatgpt_songs.json', 'w') as f:
+            f.write('')
 
         self.delete_conversation()
         answer = None
 
         mood_phrase = "The moods of the songs should be {mood_list}. ".format(
-            mood_list=", ".join(moods)) if len(moods) else ""
+            mood_list=", ".join(moods)) if moods is not None else ""
         genre_phrase = "The genres of the songs should be {genre_list}. ".format(
-            genre_list=", ".join(genres)) if len(genres) else ""
+            genre_list=", ".join(genres)) if genres is not None else ""
         question = self.beginning_prompt + caption + \
             self.end_prompt1.format(n_songs=n_songs) + \
             mood_phrase + genre_phrase + self.end_prompt2
 
-        _, answer, _ = self.ask_stream(question)
+        _, answer, _ = self.ask(question)
         answer = re.sub('  +', '', answer.strip().replace('\n', ''))
 
         if answer is not None and len(answer) > 0:
-            answer = ast.literal_eval(answer)
-            spotify_links = []
+            answer = list(ast.literal_eval(answer))
 
             for id, data in enumerate(answer):
                 song = dict(data)
@@ -86,15 +85,14 @@ class Chatbot(OpenAIAPI):
                 spotify_link = getSpotifyID(song_name=title_search, artist=artist_search,
                                             access_token=self.access_token, token_type=self.token_type)
                 insert_idx = spotify_link.find('track')
-                spotify_links.append(
-                    spotify_link[:insert_idx] + "embed/" + spotify_link[insert_idx:] + "?utm_source=generator")
+                song["spotify_link"] = spotify_link[:insert_idx] + "embed/" + spotify_link[insert_idx:] + "?utm_source=generator"
 
-                # answer[id] = song
+                answer[id] = song
 
-            # with open('chatgpt_songs.json', 'a') as f:
-            #     json.dump(spotify_links, f)
+            with open('chatgpt_songs.json', 'a') as f:
+                json.dump(answer, f)
 
-            return spotify_links
+            return answer
 
         else:
             exit(0)
