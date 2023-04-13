@@ -16,10 +16,20 @@ def get_links(caption: str, genres: list, moods: list) -> list:
     return [song['spotify_link'] for song in song_links]
 
 
+def reload_images():
+    image = Image.open(st.session_state.img)
+    st.session_state.image = image.convert('RGB')
+    # resize
+    st.session_state.image.resize((256, 256))
+    with img_col:
+        st.image(st.session_state.image, use_column_width=True)
+
+
 def reload_links():
     if 'img' in st.session_state and st.session_state.caption is not None:
         st.session_state.RCM_LINKS = get_links(
             st.session_state.caption, st.session_state.genres, st.session_state.moods)
+    reload_images()
 
 
 def reload_captions():
@@ -33,7 +43,7 @@ def reload_captions():
             cap_gen = CaptionGenerator(st.session_state.image)
             st.session_state.captions_ = cap_gen.generate(num=2)
     # captions must not be None
-    reload_links()
+    # reload_links()
 
 
 if 'RCM_NUMBER' not in st.session_state:
@@ -67,21 +77,23 @@ with img_col:
 
     # generate captions and display them
     st.radio("Generated captions", st.session_state.captions_,
-             key='caption', on_change=reload_links)
+             key='caption',
+             on_change=reload_images
+             )
     caption = None
     if caption is not None:
         st.write(f"Caption: {caption}")
     st.multiselect(
         'Genre :musical_note:',
         ['Pop', 'Rock', 'Ballad', 'EDM', 'R&B', 'Soul', 'Rap'],
-        on_change=reload_links,
+        on_change=reload_images,
         key='genres'
     )
 
     st.multiselect(
         'Mood :kissing:',
         ['Happy', 'Exciting', 'Sad', 'Nervous', 'Neutral'],
-        on_change=reload_links,
+        on_change=reload_images,
         key='moods'
     )
 
