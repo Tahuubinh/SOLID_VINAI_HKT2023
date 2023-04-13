@@ -5,6 +5,7 @@ from models.image_captioning.vit_gpt2.vit_gpt2_model import VITGPT2
 class CaptionGenerator:
     def __init__(self, image):
         self.image = image
+
     def generate(self, num=3, model='vitgpt2'):
         assert model in ['vitgpt2', 'lavis'], "Model is not supported!"
         if model == 'vitgpt2':
@@ -12,4 +13,3 @@ class CaptionGenerator:
         # if model == "lavis":
         #     model = BlipCaptionLargeCocoModel(num_captions=num)
         return gen_model.describe(self.image)
-
