@@ -10,7 +10,7 @@ import ast
 
 # API configurations and ENV variables
 def getGPTReady():
-    os.environ['OPENAI_API_KEY'] = "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"
+    os.environ['OPENAI_API_KEY'] = "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"
     config = Config()
     config.set('browser.debug', True)
     return config

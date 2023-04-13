@@ -15,42 +15,25 @@ Our app suggests music for an image.
 
 ## Getting Started
 
-### Dependencies
+### System requirements
 
 * Python 3.10 (recommended)
-* [LAVIS](https://github.com/salesforce/LAVIS)
-* [Microsoft Visual C++ 14.0 or greater is required](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+* [Microsoft Visual C++ 14.0 or greater is required](https://visualstudio.microsoft.com/visual-cpp-build-tools/) to install LAVIS
+
+### Components
+
+* LAVIS and ViT-GPT2: generating captions for image
+* [riffusion](https://github.com/riffusion/riffusion): generating music based on text prompt (caption + genre + mood)
+* ChatGPT: recommending music based on text prompt (caption + genre + mood)
 
 ### Installing
 
-* You can import environment in anaconda using SOLID2.yaml (LAVIS) or Hug.yaml (VIT GPT2). VIT GPT2 seems faster with same accuracy.
+* Install Microsoft Visual C++ 14.0 or greater is required for LAVIS: https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst
 
-* LAVIS
-
-Install Microsoft Visual C++ 14.0 or greater is required for LAVIS: https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst
-
-Install pycocotools
-```
-conda install -c conda-forge pycocotools
-```
-
-Install LAVIS from PyPi
-```
-pip install salesforce-lavis
-```
-
-* VIT GPT2
+* Run the following code to install the dependencies:
 
 ```
-pip install torch
-pip install torchvision
-pip install transformers
-pip install pillow
-```
-
-* streamlit
-```
-pip install streamlit
+pip install -r requirements.txt
 ```
 
 ### Executing program
@@ -75,3 +58,4 @@ streamlit run app.py
 This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 
 ## Acknowledgments
+This project is done on the occasion of VinAI Hackathon Working Retreat 2023.
