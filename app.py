@@ -1,7 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 from caption_generator import CaptionGenerator
-from models.riffusion.text_to_music import generate_prompt, predict
+import os
+import sys
+sys.path.append(os.path.join(os.getcwd(), "models", "riffusion"))
+from text_to_music import generate_prompt, predict
 from PIL import Image
 from ChatGPT import *
 
@@ -49,9 +52,9 @@ def reload_captions():
 
 def reload_gen_music():
     if 'img' in st.session_state and st.session_state.caption is not None:
-        prompt, negative_prompt = generate_prompt(
-            st.session_state.caption, st.session_state.genres, st.session_state.moods)
-        out, _ = predict(prompt, negative_prompt)
+        # prompt, negative_prompt = generate_prompt(
+        #     st.session_state.caption, st.session_state.genres, st.session_state.moods)
+        # out, _ = predict(prompt, negative_prompt)
         with gen_expander:
             audio_file = open(os.path.join(".", "models", "riffusion", "output.wav"), 'rb')
             audio_bytes = audio_file.read()
