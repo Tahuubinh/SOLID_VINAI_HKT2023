@@ -57,9 +57,9 @@ class Chatbot(OpenAIAPI):
         answer = None
 
         mood_phrase = "The moods of the songs should be {mood_list}. ".format(
-            mood_list=", ".join(moods)) if moods is not None else ""
+            mood_list=", ".join(moods)) if len(moods) else ""
         genre_phrase = "The genres of the songs should be {genre_list}. ".format(
-            genre_list=", ".join(genres)) if genres is not None else ""
+            genre_list=", ".join(genres)) if len(genres) else ""
         question = self.beginning_prompt + caption + \
             self.end_prompt1.format(n_songs=n_songs) + \
             mood_phrase + genre_phrase + self.end_prompt2
