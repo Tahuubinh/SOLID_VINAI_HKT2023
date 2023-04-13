@@ -29,7 +29,7 @@ def reload_links():
     if 'img' in st.session_state and st.session_state.caption is not None:
         st.session_state.RCM_LINKS = get_links(
             st.session_state.caption, st.session_state.genres, st.session_state.moods)
-    reload_images()
+    # reload_images()
 
 
 def reload_captions():
@@ -41,7 +41,7 @@ def reload_captions():
         st.image(st.session_state.image, use_column_width=True)
         if st.session_state.image is not None:
             cap_gen = CaptionGenerator(st.session_state.image)
-            st.session_state.captions_ = cap_gen.generate(num=2)
+            st.session_state.captions_ = cap_gen.generate(num=2, model='lavis')
     # captions must not be None
     # reload_links()
 

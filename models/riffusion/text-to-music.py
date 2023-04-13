@@ -5,7 +5,7 @@ from io import BytesIO
 from IPython.display import Audio
 
 pipe = DiffusionPipeline.from_pretrained("riffusion/riffusion-model-v1")
-pipe = pipe.to("cuda")
+# pipe = pipe.to("cuda")
 
 
 params = SpectrogramParams()
